@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.salaboy.legowedo4j.cmdtests;
 
 import com.salaboy.legowedo4j.api.Motor;
@@ -16,10 +12,7 @@ import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 
 /**
- *
  * @author salaboy
- * java -Djava.library.path=/home/pi/projects/javahidapi/linux/ -cp rolo_the_robot-1.0-SNAPSHOT.jar com.salaboy.rolo.tests.CMDMotorTest
- * 
  */
 public class CMDMotorTest {
 

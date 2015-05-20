@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.salaboy.legowedo4j.impl;
 
 import com.salaboy.legowedo4j.api.BlockManager;
@@ -12,7 +8,6 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 
 /**
- *
  * @author salaboy
  */
 public class WedoMotorImpl implements Motor {
@@ -104,22 +99,18 @@ public class WedoMotorImpl implements Motor {
 
     }
 
-    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
 
-    @Override
     public boolean isRunning() {
         return running;
     }
 
-    @Override
     public void setRunning(boolean running) {
         this.running = running;
     }

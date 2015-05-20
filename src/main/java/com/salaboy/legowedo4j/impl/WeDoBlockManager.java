@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.salaboy.legowedo4j.impl;
 
 import com.codeminders.hidapi.ClassPathLibraryLoader;
@@ -9,12 +5,13 @@ import com.codeminders.hidapi.HIDDevice;
 import com.codeminders.hidapi.HIDDeviceNotFoundException;
 import com.codeminders.hidapi.HIDManager;
 import com.salaboy.legowedo4j.api.BlockManager;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Singleton;
+
 /**
- *
  * @author salaboy
  */
 @Singleton
@@ -24,11 +21,11 @@ public class WeDoBlockManager implements BlockManager {
     public static String arch = "pc";
 
     public WeDoBlockManager() {
-        if(arch.equals("pc")){
+        if (arch.equals("pc")) {
             ClassPathLibraryLoader.loadNativeHIDLibrary();
         }
-        if(arch.equals("arm7")){
-            System.loadLibrary("hidapi-jni"); 
+        if (arch.equals("arm7")) {
+            System.loadLibrary("hidapi-jni");
         }
         try {
             dev = HIDManager.getInstance().openById(VENDOR_ID, PRODUCT_ID, null);
