@@ -33,6 +33,7 @@ public class WedoMotorImpl implements Motor {
         byte[] buffer = freshBuffer();
         buffer[2] = (byte) direction;
         buffer[3] = (byte) power;
+        running = power != 0;
         return buffer;
     }
 
@@ -42,21 +43,18 @@ public class WedoMotorImpl implements Motor {
 
     public synchronized void forward(int speed, long millisec) {
         doCommand(60, -speed);
-        this.running = true;
         Util.pause(millisec);
         stop();
     }
 
     public synchronized void backward(int speed, long millisec) {
         doCommand(-60, speed);
-        this.running = true;
         Util.pause(millisec);
         stop();
     }
 
     public synchronized void stop() {
         doCommand(0, 0);
-        this.running = false;
     }
 
     public synchronized void start(int speed, Direction dir) {
@@ -70,6 +68,5 @@ public class WedoMotorImpl implements Motor {
                 break;
             }
         }
-        this.running = true;
     }
 }
