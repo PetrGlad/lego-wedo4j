@@ -73,8 +73,6 @@ public class CMDMotorAndSensorTest {
                     } catch (InterruptedException ex) {
                         Logger.getLogger(CMDMotorAndSensorTest.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
-
                 }
             }
         };

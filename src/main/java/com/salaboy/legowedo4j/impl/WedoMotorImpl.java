@@ -30,6 +30,7 @@ public class WedoMotorImpl implements Motor {
     }
 
     private byte[] makeCommand(int direction, int power) {
+        assert Byte.MIN_VALUE <= power && power <= Byte.MAX_VALUE;
         byte[] buffer = freshBuffer();
         buffer[2] = (byte) direction;
         buffer[3] = (byte) power;
@@ -41,32 +42,26 @@ public class WedoMotorImpl implements Motor {
         manager.write(makeCommand(direction, power));
     }
 
-    public synchronized void forward(int speed, long millisec) {
-        doCommand(60, -speed);
-        Util.pause(millisec);
-        stop();
-    }
-
-    public synchronized void backward(int speed, long millisec) {
-        doCommand(-60, speed);
-        Util.pause(millisec);
-        stop();
-    }
-
     public synchronized void stop() {
         doCommand(0, 0);
     }
 
     public synchronized void start(int speed, Direction dir) {
         switch (dir) {
-            case BACKWARD: {
+            case BACKWARD:
                 doCommand(64, speed);
                 break;
-            }
-            case FORWARD: {
+            case FORWARD:
                 doCommand(64, -speed);
                 break;
-            }
+            case CONTINUE:
+                doCommand(60, -speed);
+                break;
+            case REVERSE:
+                doCommand(-60, speed);
+                break;
+            default:
+                assert false : "Unsupported direction " + dir;
         }
     }
 }
