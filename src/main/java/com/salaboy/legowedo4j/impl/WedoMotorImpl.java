@@ -3,16 +3,18 @@ package com.salaboy.legowedo4j.impl;
 import com.salaboy.legowedo4j.api.BlockManager;
 import com.salaboy.legowedo4j.api.Motor;
 
-import javax.inject.Inject;
-
 /**
  * @author salaboy
  */
 public class WedoMotorImpl implements Motor {
-    @Inject
-    BlockManager manager;
+
+    private final BlockManager manager;
 
     private boolean running = false;
+
+    public WedoMotorImpl(BlockManager manager) {
+        this.manager = manager;
+    }
 
     public boolean isRunning() {
         return running;

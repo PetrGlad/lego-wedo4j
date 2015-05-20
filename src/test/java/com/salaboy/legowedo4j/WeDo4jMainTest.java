@@ -2,48 +2,33 @@ package com.salaboy.legowedo4j;
 
 import com.salaboy.legowedo4j.api.DistanceSensor;
 import com.salaboy.legowedo4j.api.Motor;
+import com.salaboy.legowedo4j.impl.Util;
+import com.salaboy.legowedo4j.impl.WeDoBlockManager;
+import com.salaboy.legowedo4j.impl.WedoDistanceSensorImpl;
+import com.salaboy.legowedo4j.impl.WedoMotorImpl;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.inject.Inject;
 
-import com.salaboy.legowedo4j.impl.Util;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.ArchivePaths;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author salaboy
  */
-@RunWith(Arquillian.class)
 public class WeDo4jMainTest {
-
-    @Deployment()
-    public static Archive<?> createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class, "we-do.jar")
-                .addPackage("com.salaboy.legowedo4j.api")
-                .addPackage("com.salaboy.legowedo4j.impl")
-                .addPackage("com.codeminders.hidapi") // hidapi
-                .addAsManifestResource("META-INF/beans.xml", ArchivePaths.create("beans.xml"));
-    }
-
-    @Inject
     private DistanceSensor distanceSensor;
 
-    @Inject
     private Motor motor;
+
+    @Before
+    public void beforeTest() {
+        motor = new WedoMotorImpl(WeDoBlockManager.INSTANCE);
+        distanceSensor = new WedoDistanceSensorImpl(WeDoBlockManager.INSTANCE);
+    }
 
     @Test
     public void initialTest() throws InterruptedException {
@@ -52,13 +37,10 @@ public class WeDo4jMainTest {
             e.printStackTrace();
         };
         Thread.setDefaultUncaughtExceptionHandler(ueh);
-        final ScheduledExecutorService exec = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
-            @Override
-            public Thread newThread(Runnable r) {
-                final Thread thread = new Thread(r);
-                thread.setUncaughtExceptionHandler(ueh);
-                return thread;
-            }
+        final ScheduledExecutorService exec = new ScheduledThreadPoolExecutor(1, r -> {
+            final Thread thread = new Thread(r);
+            thread.setUncaughtExceptionHandler(ueh);
+            return thread;
         });
         exec.scheduleWithFixedDelay(() -> {
                     System.out.println("Distance: " + distanceSensor.readDistance());

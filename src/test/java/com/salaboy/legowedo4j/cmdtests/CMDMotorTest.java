@@ -6,12 +6,11 @@ import com.salaboy.legowedo4j.impl.WeDoBlockManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.salaboy.legowedo4j.impl.WedoMotorImpl;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
-import org.jboss.weld.environment.se.Weld;
-import org.jboss.weld.environment.se.WeldContainer;
 
 /**
  * @author salaboy
@@ -48,12 +47,7 @@ public class CMDMotorTest {
         }
 
         System.out.println("Starting Sensor CMD Test ...");
-
-        Weld weld = new Weld();
-
-        WeldContainer container = weld.initialize();
-
-        final Motor motor = container.instance().select(Motor.class).get();
+        final Motor motor = new WedoMotorImpl(WeDoBlockManager.INSTANCE);
 
         final Thread t = new Thread() {
             @Override

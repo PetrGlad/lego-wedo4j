@@ -3,15 +3,16 @@ package com.salaboy.legowedo4j.impl;
 import com.salaboy.legowedo4j.api.BlockManager;
 import com.salaboy.legowedo4j.api.DistanceSensor;
 
-import javax.inject.Inject;
-
 /**
  * @author salaboy
  */
 public class WedoDistanceSensorImpl implements DistanceSensor {
 
-    @Inject
-    private BlockManager manager;
+    private final BlockManager manager;
+
+    public WedoDistanceSensorImpl(BlockManager manager) {
+        this.manager = manager;
+    }
 
     /*
      * Distance from 148 to 1, where 1 is extremely close and 148 is Infinite... 

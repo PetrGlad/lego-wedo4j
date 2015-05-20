@@ -1,14 +1,15 @@
 package com.salaboy.legowedo4j.cmdtests;
 
 import com.salaboy.legowedo4j.api.DistanceSensor;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.salaboy.legowedo4j.impl.WeDoBlockManager;
+import com.salaboy.legowedo4j.impl.WedoDistanceSensorImpl;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
-import org.jboss.weld.environment.se.Weld;
-import org.jboss.weld.environment.se.WeldContainer;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author salaboy
@@ -37,11 +38,7 @@ public class CMDSensorTest {
 
         System.out.println("Starting Sensor CMD Test ...");
 
-        Weld weld = new Weld();
-
-        WeldContainer container = weld.initialize();
-
-        final DistanceSensor distanceSensor = container.instance().select(DistanceSensor.class).get();
+        final DistanceSensor distanceSensor = new WedoDistanceSensorImpl(WeDoBlockManager.INSTANCE);
 
         final Thread t = new Thread() {
             @Override

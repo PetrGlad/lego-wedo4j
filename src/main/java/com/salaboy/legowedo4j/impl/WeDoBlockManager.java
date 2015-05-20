@@ -7,14 +7,10 @@ import com.codeminders.hidapi.HIDManager;
 import com.salaboy.legowedo4j.api.BlockManager;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.inject.Singleton;
 
 /**
  * @author salaboy
  */
-@Singleton
 public class WeDoBlockManager implements BlockManager {
 
     final static int VENDOR_ID = 1684;
@@ -23,12 +19,17 @@ public class WeDoBlockManager implements BlockManager {
     private HIDDevice dev;
     public static String arch = "pc";
 
-    public WeDoBlockManager() {
+    static {
         if (arch.equals("pc")) {
             ClassPathLibraryLoader.loadNativeHIDLibrary();
         } else if (arch.equals("arm7")) {
             System.loadLibrary("hidapi-jni");
         }
+    }
+
+    public static final BlockManager INSTANCE = new WeDoBlockManager();
+
+    public WeDoBlockManager() {
         try {
             dev = HIDManager.getInstance().openById(VENDOR_ID, PRODUCT_ID, null);
         } catch (HIDDeviceNotFoundException ex) {

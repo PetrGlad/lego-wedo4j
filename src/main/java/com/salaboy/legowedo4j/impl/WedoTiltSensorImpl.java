@@ -4,17 +4,15 @@ import com.salaboy.legowedo4j.api.BlockManager;
 import com.salaboy.legowedo4j.api.Tilt;
 import com.salaboy.legowedo4j.api.TiltSensor;
 
-import javax.inject.Inject;
-
 /**
  * @author salaboy
  */
 public class WedoTiltSensorImpl implements TiltSensor {
 
-    @Inject
-    private BlockManager manager;
+    private final BlockManager manager;
 
-    public WedoTiltSensorImpl() {
+    public WedoTiltSensorImpl(BlockManager manager) {
+        this.manager = manager;
     }
 
     public synchronized Tilt readTilt() {
