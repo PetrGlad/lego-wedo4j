@@ -14,48 +14,36 @@ public class WedoTiltSensorImpl implements TiltSensor {
     @Inject
     private BlockManager manager;
 
-    private String name;
-
     public WedoTiltSensorImpl() {
     }
 
     public synchronized Tilt readTilt() {
-        byte[] buff = new byte[8];
-
-        int n = manager.read(buff);
-        if (n != 8) {
-            throw new IllegalStateException(" Wrong data");
-        }
-        int tilt = -1;
-        if ((buff[3] & 0xff) == 38 || (buff[3] & 0xff) == 39) {
-            tilt = (buff[2] & 0xff);
-        }
+        int tilt = getTilt();
         if (tilt > 10 && tilt < 40) {
             return Tilt.BACK;
-        }
-        if (tilt > 60 && tilt < 90) {
+        } else if (tilt > 60 && tilt < 90) {
             return Tilt.RIGHT;
-        }
-
-        if (tilt > 170 && tilt < 190) {
+        } else if (tilt > 170 && tilt < 190) {
             return Tilt.FORWARD;
-        }
-        if (tilt > 220 && tilt < 240) {
+        } else if (tilt > 220 && tilt < 240) {
             return Tilt.LEFT;
-        }
-        if (tilt > 120 && tilt < 140) {
+        } else if (tilt > 120 && tilt < 140) {
+            return Tilt.NO_TILT;
+        } else {
             return Tilt.NO_TILT;
         }
-
-        return Tilt.NO_TILT;
-
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return this.name;
+    private int getTilt() {
+        byte[] buff = new byte[8];
+        int n = manager.read(buff);
+        if (n != 8) {
+            throw new IllegalStateException("Wrong data length " + n);
+        }
+        if ((buff[3] & 0xff) == 38 || (buff[3] & 0xff) == 39) {
+            return (buff[2] & 0xff);
+        } else {
+            return -1;
+        }
     }
 }

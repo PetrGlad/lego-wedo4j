@@ -54,7 +54,6 @@ public class CMDSensorTest {
                     } catch (InterruptedException ex) {
                         Logger.getLogger(CMDSensorTest.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
                 }
             }
         };
@@ -62,7 +61,7 @@ public class CMDSensorTest {
 
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
-                System.out.println("Shutdown Hook is running !");
+                System.out.println("Shutdown Hook is running.");
                 readSensors = false;
             }
         });

@@ -2,8 +2,10 @@ package com.salaboy.legowedo4j.cmdtests;
 
 import com.salaboy.legowedo4j.api.Motor;
 import com.salaboy.legowedo4j.impl.WeDoBlockManager;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
@@ -36,12 +38,12 @@ public class CMDMotorTest {
             System.out.println(" The Latency will be set to: " + sensorLatency);
             defaultLatency = new Long(sensorLatency);
         }
-        
+
         String arch = cmd.getOptionValue("arch");
         if (arch == null) {
-            System.out.println(" The Default Arch will be used: arm7" );
+            System.out.println(" The Default Arch will be used: arm7");
         } else {
-            System.out.println(" The Arch will be set to: "+arch );
+            System.out.println(" The Arch will be set to: " + arch);
             WeDoBlockManager.arch = arch;
         }
 
@@ -52,13 +54,13 @@ public class CMDMotorTest {
         WeldContainer container = weld.initialize();
 
         final Motor motor = container.instance().select(Motor.class).get();
-        
+
         final Thread t = new Thread() {
             @Override
             public void run() {
                 while (readSensors) {
                     System.out.println("Starting Motor ...");
-                    motor.start(120, Motor.DIRECTION.FORWARD);
+                    motor.start(120, Motor.Direction.FORWARD);
                     try {
                         Thread.sleep(defaultLatency);
                         System.out.println("Stopping Motor ...");
@@ -67,7 +69,7 @@ public class CMDMotorTest {
                     } catch (InterruptedException ex) {
                         Logger.getLogger(CMDMotorTest.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
+
 
                 }
             }

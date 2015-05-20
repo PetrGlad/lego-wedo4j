@@ -3,8 +3,10 @@ package com.salaboy.legowedo4j.cmdtests;
 import com.salaboy.legowedo4j.api.DistanceSensor;
 import com.salaboy.legowedo4j.api.Motor;
 import com.salaboy.legowedo4j.impl.WeDoBlockManager;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
@@ -39,12 +41,12 @@ public class CMDMotorAndSensorTest {
         }
         String arch = cmd.getOptionValue("arch");
         if (arch == null) {
-            System.out.println(" The Default Arch will be used: arm7" );
+            System.out.println(" The Default Arch will be used: arm7");
         } else {
-            System.out.println(" The Arch will be set to: "+arch );
+            System.out.println(" The Arch will be set to: " + arch);
             WeDoBlockManager.arch = arch;
         }
-        
+
         System.out.println("Starting Motor and Sensor CMD Test ...");
 
         Weld weld = new Weld();
@@ -59,7 +61,7 @@ public class CMDMotorAndSensorTest {
             public void run() {
                 while (readSensors) {
                     System.out.println("Starting Motor ...");
-                    motor.start(120, Motor.DIRECTION.FORWARD);
+                    motor.start(120, Motor.Direction.FORWARD);
                     try {
                         Thread.sleep(defaultLatency);
                         int readDistance = distanceSensor.readDistance();

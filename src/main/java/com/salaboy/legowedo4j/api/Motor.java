@@ -5,23 +5,17 @@ package com.salaboy.legowedo4j.api;
  */
 public interface Motor {
 
-    enum DIRECTION {
+    enum Direction {
         FORWARD, BACKWARD
     };
 
-    void setName(String string);
-    
-    String getName();
-    
     void forward(int speed, long millisec);
 
     void backward(int speed, long millisec);
 
-    void start(int speed, DIRECTION dir);
+    void start(int speed, Direction dir);
     
     void stop();
     
     boolean isRunning();
-    
-    void setRunning(boolean running);
 }
