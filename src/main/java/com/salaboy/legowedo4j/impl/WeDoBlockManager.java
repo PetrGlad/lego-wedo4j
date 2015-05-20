@@ -17,24 +17,24 @@ import javax.inject.Singleton;
 @Singleton
 public class WeDoBlockManager implements BlockManager {
 
+    final static int VENDOR_ID = 1684;
+    final static int PRODUCT_ID = 3;
+
     private HIDDevice dev;
     public static String arch = "pc";
 
     public WeDoBlockManager() {
         if (arch.equals("pc")) {
             ClassPathLibraryLoader.loadNativeHIDLibrary();
-        }
-        if (arch.equals("arm7")) {
+        } else if (arch.equals("arm7")) {
             System.loadLibrary("hidapi-jni");
         }
         try {
             dev = HIDManager.getInstance().openById(VENDOR_ID, PRODUCT_ID, null);
         } catch (HIDDeviceNotFoundException ex) {
-            Logger.getLogger(WeDoBlockManager.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IllegalStateException(" No Device Found! " + ex);
+            throw new IllegalStateException("No device found", ex);
         } catch (IOException ex) {
-            Logger.getLogger(WeDoBlockManager.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IllegalStateException(" No Device Found! " + ex);
+            throw new IllegalStateException("Cannot open device", ex);
         }
     }
 
@@ -46,7 +46,7 @@ public class WeDoBlockManager implements BlockManager {
         try {
             dev.write(data);
         } catch (IOException ex) {
-            Logger.getLogger(WeDoBlockManager.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex);
         }
     }
 
@@ -54,8 +54,7 @@ public class WeDoBlockManager implements BlockManager {
         try {
             return dev.read(buff);
         } catch (IOException ex) {
-            Logger.getLogger(WeDoBlockManager.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(ex);
         }
-        return -1;
     }
 }
